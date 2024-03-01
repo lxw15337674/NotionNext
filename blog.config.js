@@ -44,55 +44,80 @@ const BLOG = {
       // eg: images.unsplash.com(notion图床的所有图片都会替换),如果你在 notion 里已经添加了一个随机图片 url，恰巧那个服务跑路或者挂掉，想一键切换所有配图可以将该 url 配置在这里
       // 默认下会将你上传到 notion的主页封面图和头像也给替换，建议将主页封面图和头像放在其他图床，在 notion 里配置 link 即可。
 
-      // START ************网站字体*****************
+  // START ************网站字体*****************
+  // ['font-serif','font-sans'] 两种可选，分别是衬线和无衬线: 参考 https://www.jianshu.com/p/55e410bd2115
+  // 后面空格隔开的font-light的字体粗细，留空是默认粗细；参考 https://www.tailwindcss.cn/docs/font-weight
+  FONT_STYLE: process.env.NEXT_PUBLIC_FONT_STYLE || 'font-sans font-light',
+  // 字体CSS 例如 https://npm.elemecdn.com/lxgw-wenkai-webfont@1.6.0/style.css
+  FONT_URL: [
+    // 'https://npm.elemecdn.com/lxgw-wenkai-webfont@1.6.0/style.css',
+    'https://fonts.googleapis.com/css?family=Bitter&display=swap',
+    'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300&display=swap',
+    'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300&display=swap'
+  ],
+  // 无衬线字体 例如'"LXGW WenKai"'
+  FONT_SANS: [
+    // '"LXGW WenKai"',
+    '"PingFang SC"',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Hiragino Sans GB"',
+    '"Microsoft YaHei"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+    '"Segoe UI"',
+    '"Noto Sans SC"',
+    'HarmonyOS_Regular',
+    '"Helvetica Neue"',
+    'Helvetica',
+    '"Source Han Sans SC"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"'
+  ],
+  // 衬线字体 例如'"LXGW WenKai"'
+  FONT_SERIF: [
+    // '"LXGW WenKai"',
+    'Bitter',
+    '"Noto Serif SC"',
+    'SimSun',
+    '"Times New Roman"',
+    'Times',
+    'serif',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+    '"Apple Color Emoji"'
+  ],
+  FONT_AWESOME: process.env.NEXT_PUBLIC_FONT_AWESOME_PATH || 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', // font-awesome 字体图标地址; 可选 /css/all.min.css ， https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
 
-      FONT_STYLE: process.env.NEXT_PUBLIC_FONT_STYLE || 'font-sans', // ['font-serif','font-sans'] 两种可选，分别是衬线和无衬线: 参考 https://www.jianshu.com/p/55e410bd2115
-      // 字体CSS 例如 https://npm.elemecdn.com/lxgw-wenkai-webfont@1.6.0/style.css
-      FONT_URL: [
-            // 'https://npm.elemecdn.com/lxgw-wenkai-webfont@1.6.0/style.css',
-            'https://fonts.googleapis.com/css?family=Bitter&display=swap',
-            'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300&display=swap',
-            'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300&display=swap'
-      ],
-      // 无衬线字体 例如'"LXGW WenKai"'
-      FONT_SANS: [
-            // '"LXGW WenKai"',
-            '"PingFang SC"',
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Hiragino Sans GB"',
-            '"Microsoft YaHei"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-            '"Segoe UI"',
-            '"Noto Sans SC"',
-            'HarmonyOS_Regular',
-            '"Helvetica Neue"',
-            'Helvetica',
-            '"Source Han Sans SC"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"'
-      ],
-      // 衬线字体 例如'"LXGW WenKai"'
-      FONT_SERIF: [
-            // '"LXGW WenKai"',
-            'Bitter',
-            '"Noto Serif SC"',
-            'SimSun',
-            '"Times New Roman"',
-            'Times',
-            'serif',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-            '"Apple Color Emoji"'
-      ],
-      FONT_AWESOME: process.env.NEXT_PUBLIC_FONT_AWESOME_PATH || 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', // font-awesome 字体图标地址; 可选 /css/all.min.css ， https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
+  // END ************网站字体*****************
 
-      // END ************网站字体*****************
-      CAN_COPY: process.env.NEXT_PUBLIC_CAN_COPY || true, // 是否允许复制页面内容 默认允许，如果设置为false、则全栈禁止复制内容。
-      CUSTOM_RIGHT_CLICK_CONTEXT_MENU: process.env.NEXT_PUBLIC_CUSTOM_RIGHT_CLICK_CONTEXT_MENU || true, // 自定义右键菜单，覆盖系统菜单
-      CUSTOM_RIGHT_CLICK_CONTEXT_MENU_THEME_SWITCH: process.env.NEXT_PUBLIC_CUSTOM_RIGHT_CLICK_CONTEXT_MENU_THEME_SWITCH || true,
+  // 路径和组件映射，不同路径分别展示主题的什么组件
+  LAYOUT_MAPPINGS: {
+    '-1': 'LayoutBase',
+    '/': 'LayoutIndex',
+    '/archive': 'LayoutArchive',
+    '/page/[page]': 'LayoutPostList',
+    '/category/[category]': 'LayoutPostList',
+    '/category/[category]/page/[page]': 'LayoutPostList',
+    '/tag/[tag]': 'LayoutPostList',
+    '/tag/[tag]/page/[page]': 'LayoutPostList',
+    '/search': 'LayoutSearch',
+    '/search/[keyword]': 'LayoutSearch',
+    '/search/[keyword]/page/[page]': 'LayoutSearch',
+    '/404': 'Layout404',
+    '/tag': 'LayoutTagIndex',
+    '/category': 'LayoutCategoryIndex',
+    '/[prefix]': 'LayoutSlug',
+    '/[prefix]/[slug]': 'LayoutSlug',
+    '/[prefix]/[slug]/[...suffix]': 'LayoutSlug',
+    '/signin': 'LayoutSignIn',
+    '/signup': 'LayoutSignUp'
+  },
+
+  CAN_COPY: process.env.NEXT_PUBLIC_CAN_COPY || true, // 是否允许复制页面内容 默认允许，如果设置为false、则全栈禁止复制内容。
+  CUSTOM_RIGHT_CLICK_CONTEXT_MENU: process.env.NEXT_PUBLIC_CUSTOM_RIGHT_CLICK_CONTEXT_MENU || true, // 自定义右键菜单，覆盖系统菜单
+  CUSTOM_RIGHT_CLICK_CONTEXT_MENU_THEME_SWITCH: process.env.NEXT_PUBLIC_CUSTOM_RIGHT_CLICK_CONTEXT_MENU_THEME_SWITCH || true, // 右键菜单是否允许切换主题
 
       // 自定义外部脚本，外部样式
       CUSTOM_EXTERNAL_JS: [''], // e.g. ['http://xx.com/script.js','http://xx.com/script.js']
@@ -155,11 +180,13 @@ const BLOG = {
       POSTS_PER_PAGE: 12, // post counts per page
       POSTS_SORT_BY: process.env.NEXT_PUBLIC_POST_SORT_BY || 'notion', // 排序方式 'date'按时间,'notion'由notion控制
 
-      ALGOLIA_APP_ID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || null, // 在这里查看 https://dashboard.algolia.com/account/api-keys/
-      ALGOLIA_ADMIN_APP_KEY: process.env.ALGOLIA_ADMIN_APP_KEY || null, // 管理后台的KEY，不要暴露在代码中，在这里查看 https://dashboard.algolia.com/account/api-keys/
-      ALGOLIA_SEARCH_ONLY_APP_KEY: process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_APP_KEY || null, // 客户端搜索用的KEY
-      ALGOLIA_INDEX: process.env.NEXT_PUBLIC_ALGOLIA_INDEX || null, // 在Algolia中创建一个index用作数据库
-      //   ALGOLIA_RECREATE_DATA: process.env.ALGOLIA_RECREATE_DATA || process.env.npm_lifecycle_event === 'build', // 为true时重新构建索引数据; 默认在build时会构建
+  POST_WAITING_TIME_FOR_404: process.env.NEXT_PUBLIC_POST_WAITING_TIME_FOR_404 || '8', // 文章加载超时时间，单位秒；超时后跳转到404页面
+
+  ALGOLIA_APP_ID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID || null, // 在这里查看 https://dashboard.algolia.com/account/api-keys/
+  ALGOLIA_ADMIN_APP_KEY: process.env.ALGOLIA_ADMIN_APP_KEY || null, // 管理后台的KEY，不要暴露在代码中，在这里查看 https://dashboard.algolia.com/account/api-keys/
+  ALGOLIA_SEARCH_ONLY_APP_KEY: process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_APP_KEY || null, // 客户端搜索用的KEY
+  ALGOLIA_INDEX: process.env.NEXT_PUBLIC_ALGOLIA_INDEX || null, // 在Algolia中创建一个index用作数据库
+  //   ALGOLIA_RECREATE_DATA: process.env.ALGOLIA_RECREATE_DATA || process.env.npm_lifecycle_event === 'build', // 为true时重新构建索引数据; 默认在build时会构建
 
       PREVIEW_CATEGORY_COUNT: 16, // 首页最多展示的分类数量，0为不限制
       PREVIEW_TAG_COUNT: 16, // 首页最多展示的标签数量，0为不限制
@@ -378,61 +405,13 @@ const BLOG = {
       AD_WWADS_ID: process.env.NEXT_PUBLIC_WWAD_ID || null, // https://wwads.cn/ 创建您的万维广告单元ID
       AD_WWADS_BLOCK_DETECT: process.env.NEXT_PUBLIC_WWADS_AD_BLOCK_DETECT || false, // 是否开启WWADS广告屏蔽插件检测,开启后会在广告位上以文字提示 @see https://github.com/bytegravity/whitelist-wwads
 
-      // END<----营收相关
-
-      // 自定义配置notion数据库字段名
-      NOTION_PROPERTY_NAME: {
-            password: process.env.NEXT_PUBLIC_NOTION_PROPERTY_PASSWORD || 'password',
-            type: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE || 'type', // 文章类型，
-            type_post: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE_POST || 'Post', // 当type文章类型与此值相同时，为博文。
-            type_page: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE_PAGE || 'Page', // 当type文章类型与此值相同时，为单页。
-            type_notice:
-
-                  process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE_NOTICE || 'Notice', // 当type文章类型与此值相同时，为公告。
-            type_menu: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE_MENU || 'Menu', // 当type文章类型与此值相同时，为菜单。
-            type_sub_menu:
-                  process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE_SUB_MENU || 'SubMenu', // 当type文章类型与此值相同时，为子菜单。
-            title: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TITLE || 'title', // 文章标题
-            status: process.env.NEXT_PUBLIC_NOTION_PROPERTY_STATUS || 'status',
-            status_publish:
-                  process.env.NEXT_PUBLIC_NOTION_PROPERTY_STATUS_PUBLISH || 'Published', // 当status状态值与此相同时为发布，可以为中文
-            status_invisible:
-                  process.env.NEXT_PUBLIC_NOTION_PROPERTY_STATUS_INVISIBLE || 'Invisible', // 当status状态值与此相同时为隐藏发布，可以为中文 ， 除此之外其他页面状态不会显示在博客上
-            summary: process.env.NEXT_PUBLIC_NOTION_PROPERTY_SUMMARY || 'summary',
-            slug: process.env.NEXT_PUBLIC_NOTION_PROPERTY_SLUG || 'slug',
-            category: process.env.NEXT_PUBLIC_NOTION_PROPERTY_CATEGORY || 'category',
-            date: process.env.NEXT_PUBLIC_NOTION_PROPERTY_DATE || 'date',
-            tags: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TAGS || 'tags',
-            icon: process.env.NEXT_PUBLIC_NOTION_PROPERTY_ICON || 'icon'
-      },
-
-      // RSS订阅
-      ENABLE_RSS: process.env.NEXT_PUBLIC_ENABLE_RSS || true, // 是否开启RSS订阅功能
-      MAILCHIMP_LIST_ID: process.env.MAILCHIMP_LIST_ID || null, // 开启mailichimp邮件订阅 客户列表ID ，具体使用方法参阅文档
-      MAILCHIMP_API_KEY: process.env.MAILCHIMP_API_KEY || null, // 开启mailichimp邮件订阅 APIkey
-
-      // 作废配置
-      AVATAR: process.env.NEXT_PUBLIC_AVATAR || '/avatar.svg', // 作者头像，被notion中的ICON覆盖。若无ICON则取public目录下的avatar.png
-      TITLE: process.env.NEXT_PUBLIC_TITLE || 'NotionNext BLOG', // 站点标题 ，被notion中的页面标题覆盖；此处请勿留空白，否则服务器无法编译
-      HOME_BANNER_IMAGE:
-
-            process.env.NEXT_PUBLIC_HOME_BANNER_IMAGE || '/bg_image.jpg', // 首页背景大图, 会被notion中的封面图覆盖，若无封面图则会使用代码中的 /public/bg_image.jpg 文件
-      DESCRIPTION:
-            process.env.NEXT_PUBLIC_DESCRIPTION || '这是一个由NotionNext生成的站点', // 站点描述，被notion中的页面描述覆盖
-
-      // 网站图片
-      IMG_LAZY_LOAD_PLACEHOLDER: process.env.NEXT_PUBLIC_IMG_LAZY_LOAD_PLACEHOLDER || 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==', // 懒加载占位图片地址，支持base64或url
-      IMG_URL_TYPE: process.env.NEXT_PUBLIC_IMG_TYPE || 'Notion', // 此配置已失效，请勿使用；AMAZON方案不再支持，仅支持Notion方案。 ['Notion','AMAZON'] 站点图片前缀 默认 Notion:(https://notion.so/images/xx) ， AMAZON(https://s3.us-west-2.amazonaws.com/xxx)
-      IMG_SHADOW: process.env.NEXT_PUBLIC_IMG_SHADOW || false, // 文章图片是否自动添加阴影
-      IMG_COMPRESS_WIDTH: process.env.NEXT_PUBLIC_IMG_COMPRESS_WIDTH || 800, // Notion图片压缩宽度
-
-      // 开发相关
-      NOTION_ACCESS_TOKEN: process.env.NOTION_ACCESS_TOKEN || '', // Useful if you prefer not to make your database public
-      DEBUG: process.env.NEXT_PUBLIC_DEBUG || false, // 是否显示调试按钮
-      ENABLE_CACHE: process.env.ENABLE_CACHE || process.env.npm_lifecycle_event === 'build', // 缓存在开发调试和打包过程中选择性开启，正式部署开启此功能意义不大。
-      isProd: process.env.VERCEL_ENV === 'production', // distinguish between development and production environment (ref: https://vercel.com/docs/environment-variables#system-environment-variables)  isProd: process.env.VERCEL_ENV === 'production' // distinguish between development and production environment (ref: https://vercel.com/docs/environment-variables#system-environment-variables)
-      BUNDLE_ANALYZER: process.env.ANALYZE === 'true' || false, // 是否展示编译依赖内容与大小
-      VERSION: process.env.NEXT_PUBLIC_VERSION // 版本号
+  // 开发相关
+  NOTION_ACCESS_TOKEN: process.env.NOTION_ACCESS_TOKEN || '', // Useful if you prefer not to make your database public
+  DEBUG: process.env.NEXT_PUBLIC_DEBUG || false, // 是否显示调试按钮
+  ENABLE_CACHE: process.env.ENABLE_CACHE || process.env.npm_lifecycle_event === 'build' || process.env.npm_lifecycle_event === 'export', // 在打包过程中默认开启缓存，开发或运行时开启此功能意义不大。
+  isProd: process.env.VERCEL_ENV === 'production', // distinguish between development and production environment (ref: https://vercel.com/docs/environment-variables#system-environment-variables)  isProd: process.env.VERCEL_ENV === 'production' // distinguish between development and production environment (ref: https://vercel.com/docs/environment-variables#system-environment-variables)
+  BUNDLE_ANALYZER: process.env.ANALYZE === 'true' || false, // 是否展示编译依赖内容与大小
+  VERSION: process.env.NEXT_PUBLIC_VERSION // 版本号
 }
 
 module.exports = BLOG

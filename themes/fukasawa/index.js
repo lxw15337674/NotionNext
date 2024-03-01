@@ -19,7 +19,6 @@ import dynamic from 'next/dynamic'
 import { AdSlot } from '@/components/GoogleAdsense'
 import { Style } from './style'
 import replaceSearchResult from '@/components/Mark'
-import CommonHead from '@/components/CommonHead'
 import { siteConfig } from '@/lib/config'
 import WWAds from '@/components/WWAds'
 
@@ -44,16 +43,14 @@ export const useFukasawaGlobal = () => useContext(ThemeGlobalFukasawa)
  * @constructor
  */
 const LayoutBase = (props) => {
-  const { children, headerSlot, meta } = props
+  const { children, headerSlot } = props
   const leftAreaSlot = <Live2D />
   const { onLoading, fullWidth } = useGlobal()
 
   return (
         <ThemeGlobalFukasawa.Provider value={{}}>
 
-            <div id='theme-fukasawa'>
-                {/* SEO信息 */}
-                <CommonHead meta={meta}/>
+            <div id='theme-fukasawa' className={`${siteConfig('FONT_STYLE')} dark:bg-black scroll-smooth`}>
                 <Style/>
 
                 <TopNav {...props} />
@@ -121,7 +118,23 @@ const LayoutPostList = (props) => {
             * @returns
             */
 const LayoutSlug = (props) => {
-  const { lock, validPassword } = props
+  const { post, lock, validPassword } = props
+  const router = useRouter()
+  useEffect(() => {
+    // 404
+    if (!post) {
+      setTimeout(() => {
+        if (isBrowser) {
+          const article = document.getElementById('notion-article')
+          if (!article) {
+            router.push('/404').then(() => {
+              console.warn('找不到页面', router.asPath)
+            })
+          }
+        }
+      }, siteConfig('POST_WAITING_TIME_FOR_404') * 1000)
+    }
+  }, [post])
   return (
         <>
             {lock ? <ArticleLock validPassword={validPassword} /> : <ArticleDetail {...props} />}
