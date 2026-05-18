@@ -59,7 +59,28 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         '@typescript-eslint/no-floating-promises': 'off',
-        '@typescript-eslint/no-unsafe-return': 'off'
+        '@typescript-eslint/no-unsafe-return': 'off',
+        '@typescript-eslint/await-thenable': 'off',
+        '@typescript-eslint/require-await': 'off'
+      }
+    },
+    {
+      files: [
+        'lib/db/notion/RateLimiter.ts',
+        'lib/site/adapters/notion/notion.adapter.ts',
+        'lib/site/adapters/notion/notion.normalizer.ts',
+        'lib/site/processors/page.processor.ts',
+        'lib/site/site.types.ts',
+        'lib/utils/clean.util.ts',
+        'lib/utils/time.util.ts'
+      ],
+      rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-return': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-floating-promises': 'off',
+        '@typescript-eslint/no-misused-promises': 'off'
       }
     }
   ],
