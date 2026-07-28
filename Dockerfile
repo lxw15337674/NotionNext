@@ -9,7 +9,12 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --network-timeout 600000
+# The checked-in Yarn v1 lockfile contains historical npmmirror tarball URLs.
+# Keep that choice for local development, but use the primary registry in
+# container builds: the mirror has returned intermittent 504s on GitHub's
+# amd64 and arm64 builders.
+RUN sed -i 's#https://registry\.npmmirror\.com/#https://registry.npmjs.org/#g' yarn.lock \
+  && yarn install --frozen-lockfile --network-timeout 600000
 
 # 2. Rebuild the source code only when needed
 FROM base AS builder
