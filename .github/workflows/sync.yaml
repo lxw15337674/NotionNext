@@ -27,7 +27,10 @@ jobs:
           upstream_sync_repo: tangly1024/NotionNext
           upstream_sync_branch: main
           target_sync_branch: main
-          target_repo_token: ${{ secrets.GITHUB_TOKEN }} # automatically generated, no need to set
+          # A fine-grained PAT in UPSTREAM_SYNC_TOKEN with Contents and Workflows
+          # read/write can sync upstream workflow-file changes. The fallback keeps
+          # ordinary upstream changes working before that secret is configured.
+          target_repo_token: ${{ secrets.UPSTREAM_SYNC_TOKEN || github.token }}
 
           # Set test_mode true to run tests instead of the true action!!
           test_mode: false
