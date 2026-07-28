@@ -19,6 +19,9 @@ updates:
     ignore:
       - dependency-name: '*'
         update-types: [version-update:semver-major]
+      # 站点保留了 vitepress-chat@0.0.3 的运行时补丁；升级前必须先重建补丁，
+      # 否则 postinstall 的 patch-package 会让所有 CI 安装阶段失败。
+      - dependency-name: vitepress-chat
 
   - package-ecosystem: github-actions
     directory: /
