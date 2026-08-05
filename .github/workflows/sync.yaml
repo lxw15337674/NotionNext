@@ -18,6 +18,9 @@ jobs:
       # Step 1: run a standard checkout action
       - name: Checkout target repo
         uses: actions/checkout@v7
+        with:
+          # Let the sync action authenticate pushes with UPSTREAM_SYNC_TOKEN.
+          persist-credentials: false
 
       # Step 2: run the sync action
       - name: Sync upstream changes
